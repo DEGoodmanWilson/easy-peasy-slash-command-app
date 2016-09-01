@@ -1,0 +1,14 @@
+[
+  {
+    "id": "A8720B4A-E17D-42E0-A800-80B4B03A00CE",
+    "name": "Chicken Katsu",
+    "desc": "Un délicieux plat japonais à base de poulet pané, riz et accompagné d’une sauce katsu aigre-douce.",
+    "img": "http://www.nobinobi-restaurant.fr/wp-content/uploads/2015/10/ChickenKatsu.png"
+  },
+  {
+    "id": "FD679230-40EC-4AD3-BA53-3DED4E49F05A",
+    "name": "Katsu Curry",
+    "desc": "Un délicieux plat japonais à base de poulet pané, riz, légumes et accompagné d’une délicieuse sauce au curry japonais.",
+    "img": "http://www.nobinobi-restaurant.fr/wp-content/uploads/2015/10/KatsuCurry.png"
+  }
+]
