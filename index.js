@@ -87,13 +87,13 @@ controller.setupWebserver(process.env.PORT, function (err, webserver) {
 
 controller.on('slash_command', function (slashCommand, message) {
 
-    switch (message.command) {
+    var chickenKatsuCount = 0;
+    var katsuCurryCount = 0;
+    var toriYakisobaCount = 0;
+    var nambanToriCount = 0;
+    var ramenCount = 0;
 
-        var chickenKatsuCount = 0;
-        var katsuCurryCount = 0;
-        var toriYakisobaCount = 0;
-        var nambanToriCount = 0;
-        var ramenCount = 0;
+    switch (message.command) {
 
         case "/isitnobitime": //handle the `/echo` slash command. We might have others assigned to this app too!
             // The rules are simple: If there is no text following the command, treat it as though they had requested "help"
@@ -153,7 +153,6 @@ controller.on('slash_command', function (slashCommand, message) {
 
             break;
 
-        case ""
         default:
             slashCommand.replyPublic(message, "Désolé, je ne connais pas cette commande. Si tu as besoin d'un coup de main, essaye de tapper `/isitnobitime help` !");
 
