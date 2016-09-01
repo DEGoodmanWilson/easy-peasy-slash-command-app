@@ -132,6 +132,7 @@ controller.on('slash_command', function (slashCommand, message) {
             // LIST COMMAND
             if (message.text === "menu") {
                 slashCommand.replyPrivate(message, "📋 Voici la liste des plats du Nobi (pour en savoir plus : http://nobi.com) :");
+                return;
             }
 
             // ORDER COMMAND
@@ -145,16 +146,21 @@ controller.on('slash_command', function (slashCommand, message) {
               "—————" +
               "SMS au 05 05 05 05 05" +
               "Appel au 05 05 05 05 05");
+              return;
             }
 
             if (message.text === "resetlist") {
                 slashCommand.replyPrivate(message, "⏰ On remet à zéro : toute la liste a bien été annulée !");
+                return;
             }
+
+            // Nothing matched
+            slashCommand.replyPrivate(message, "Désolé, je ne connais pas cette commande. Si tu as besoin d'un coup de main, essaye de tapper `/isitnobitime help` !");
 
             break;
 
         default:
-            slashCommand.replyPublic(message, "Désolé, je ne connais pas cette commande. Si tu as besoin d'un coup de main, essaye de tapper `/isitnobitime help` !");
+            slashCommand.replyPrivate(message, "Désolé, je ne connais pas cette commande. Si tu as besoin d'un coup de main, essaye de tapper `/isitnobitime help` !");
 
 
         // RESET TIMER EVERY MONDAY
