@@ -40,7 +40,13 @@
 
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-function startBot() {
+ function loadMeals(callback) {
+   var fs = require('fs');
+   var obj = JSON.parse(fs.readFileSync('meals.json', 'utf8'));
+   return obj;
+ }
+
+function startBot(meals) {
   /* Uses the slack button feature to offer a real time bot to multiple teams */
   var Botkit = require('botkit');
 
@@ -177,7 +183,7 @@ function startBot() {
       }
 
   });
-
 }
 
-startBot();
+var meals = loadMeals();
+startBot(meals);
