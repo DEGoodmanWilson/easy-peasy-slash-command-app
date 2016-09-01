@@ -53,6 +53,15 @@ function mealDescription(meal) {
     return desc;
 }
 
+function getMealFromName(meals, mealName) {
+    for (var i = 0; i < meals.length; i++) {
+        if (meals[i].name.toLowerCase() == mealName.toLowerCase()) {
+            return meals[i];
+        }
+    }
+    return undefined;
+}
+
 function startBot(meals) {
     /* Uses the slack button feature to offer a real time bot to multiple teams */
     var Botkit = require('botkit');
@@ -96,12 +105,6 @@ function startBot(meals) {
 
     controller.on('slash_command', function(slashCommand, message) {
 
-        var chickenKatsuCount = 0;
-        var katsuCurryCount = 0;
-        var toriYakisobaCount = 0;
-        var nambanToriCount = 0;
-        var ramenCount = 0;
-
         switch (message.command) {
 
             case "/isitnobitime": //handle the `/echo` slash command. We might have others assigned to this app too!
@@ -126,9 +129,8 @@ function startBot(meals) {
                 }
 
                 // FOOD ADD
-                if (message.text === "chicken katsu") {
-                    slashCommand.replyPrivate(message, "Chicken Katsu bien ajouté à la commande !");
-                    chickenKatsuCount += 1;
+                if (message.text.startsWith("add ")) {
+                    handleAddFoodCommand(message, slashCommand, meals);
                     return;
                 }
 
@@ -147,11 +149,11 @@ function startBot(meals) {
                 // ORDER COMMAND
                 if (message.text === "order") {
                     slashCommand.replyPrivate(message, "📲 C'est parti ? Voici ce qu'il faut commander :" +
-                        "- " + chickenKatsuCount + " Chicken Katsu" +
-                        "- " + katsuCurryCount + " Katsu Curry" +
-                        "- " + toriYakisobaCount + " Tori Yakisoba" +
-                        "- " + nambanToriCount + " Namban Tori" +
-                        "- " + ramenCount + " Ramen" +
+                        "- " + 0 + " Chicken Katsu" +
+                        "- " + 0 + " Katsu Curry" +
+                        "- " + 0 + " Tori Yakisoba" +
+                        "- " + 0 + " Namban Tori" +
+                        "- " + 0 + " Ramen" +
                         "—————" +
                         "SMS au 05 05 05 05 05" +
                         "Appel au 05 05 05 05 05");
@@ -178,18 +180,24 @@ function startBot(meals) {
                 var resetHour = date.getHours();
 
                 if (resetDay === 0 && resetHour === 10) {
-                    var chickenKatsuCount = 0;
-                    var katsuCurryCount = 0;
-                    var toriYakisobaCount = 0;
-                    var nambanToriCount = 0;
-                    var ramenCount = 0;
-
                     slashCommand.replyPublic(message, "Nouvelle semaine, nouveau Nobi : la commande a été réinitialisée !");
                 }
 
         }
 
     });
+
+    function handleAddFoodCommand(message, command, meals) {
+        var mealName = message.text.substr("add ".length); // "add chicken katsu" -> "chicken katsu"
+        var meal = getMealFromName(meals, mealName);
+        var user = message.user_name;
+        if (meal == undefined) {
+            command.replyPrivate(message, "Ce plat n'existe pas... `/isitnobitime menu` devrait pouvoir t'aider");
+        } else {
+            // TODO: Save the receipent name and the meal
+            command.replyPrivate(message, "Noté ! Un " + meal.name + " a été ajouté pour " + user);
+        }
+    }
 
     function handleMenuCommand(message, command, meals) {
         var text = "📋 Voici la liste des plats du Nobi (pour en savoir plus : http://nobi.com) :\n\n";
