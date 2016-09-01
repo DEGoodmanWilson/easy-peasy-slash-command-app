@@ -88,33 +88,92 @@ controller.setupWebserver(process.env.PORT, function (err, webserver) {
 controller.on('slash_command', function (slashCommand, message) {
 
     switch (message.command) {
-        case "/echo": //handle the `/echo` slash command. We might have others assigned to this app too!
+
+        var chickenKatsuCount = 0;
+        var katsuCurryCount = 0;
+        var toriYakisobaCount = 0;
+        var nambanToriCount = 0;
+        var ramenCount = 0;
+
+        case "/isitnobitime": //handle the `/echo` slash command. We might have others assigned to this app too!
             // The rules are simple: If there is no text following the command, treat it as though they had requested "help"
             // Otherwise just echo back to them what they sent us.
 
-            // but first, let's make sure the token matches!
+            // TOKEN VERIFICATION
             if (message.token !== process.env.VERIFICATION_TOKEN) return; //just ignore it.
 
-            // if no text was supplied, treat it as a help command
+            // HELP COMMAND
             if (message.text === "" || message.text === "help") {
                 slashCommand.replyPrivate(message,
-                    "I echo back what you tell me. " +
-                    "Try typing `/echo hello` to see.");
+                    "🔑 Hey, je suis le Nobi Nobi bot ! Grâce à moi, tu peux commander ton plat directement depuis Slack." +
+                    "Tu as juste à tapper ceci : `/isitnobitime chicken katsu` pour commander un Chicken Katsu. Ça marche aussi avec les autres plats." +
+                    "Quelques commandes utiles :" +
+                    "- 🔑 `/isitnobitime help` pour afficher l'aide" +
+                    "- ❌ `/isitnobitime cancel` pour annuler ta dernière commande" +
+                    "- 📋 `/isitnobitime menu` pour afficher la liste des plats à commander" +
+                    "- 📲 `/isitnobitime order` lorsque tu es prêt à commander !" +
+                    "- ⏰ `/isitnobitime resetlist` pour annuler TOUTE la commande.");
                 return;
             }
 
-            // If we made it here, just echo what the user typed back at them
-            //TODO You do it!
-            slashCommand.replyPublic(message, "1", function() {
-                slashCommand.replyPublicDelayed(message, "2").then(slashCommand.replyPublicDelayed(message, "3"));
-            });
+            // FOOD ADD
+            if (message.text === "chicken katsu") {
+                slashCommand.replyPrivate(message, "Chicken Katsu bien ajouté à la commande !");
+                chickenKatsuCount += 1;
+                return;
+            }
+
+            // CANCEL COMMAND
+            if (message.text === "cancel") {
+                slashCommand.replyPrivate(message, "❌ Pas de panique, ton dernier plat ajouté à été annulé :)");
+                return;
+            }
+
+            // LIST COMMAND
+            if (message.text === "menu") {
+                slashCommand.replyPrivate(message, "📋 Voici la liste des plats du Nobi (pour en savoir plus : http://nobi.com) :");
+            }
+
+            // ORDER COMMAND
+            if (message.text === "order") {
+                slashCommand.replyPrivate(message, "📲 C'est parti ? Voici ce qu'il faut commander :" +
+              "- " + chickenKatsuCount + " Chicken Katsu" +
+              "- " + katsuCurryCount + " Katsu Curry" +
+              "- " + toriYakisobaCount + " Tori Yakisoba" +
+              "- " + nambanToriCount + " Namban Tori" +
+              "- " + ramenCount + " Ramen" +
+              "—————" +
+              "SMS au 05 05 05 05 05" +
+              "Appel au 05 05 05 05 05");
+            }
+
+            if (message.text === "resetlist") {
+                slashCommand.replyPrivate(message, "⏰ On remet à zéro : toute la liste a bien été annulée !");
+            }
 
             break;
+
+        case ""
         default:
-            slashCommand.replyPublic(message, "I'm afraid I don't know how to " + message.command + " yet.");
+            slashCommand.replyPublic(message, "Désolé, je ne connais pas cette commande. Si tu as besoin d'un coup de main, essaye de tapper `/isitnobitime help` !");
+
+
+        // RESET TIMER EVERY MONDAY
+        var date = new Date();
+        var resetDay = date.getDay();
+        var resetHour = date.getHours();
+
+        if (resetDay === 0 && resetHour === 10) {
+          var chickenKatsuCount = 0;
+          var katsuCurryCount = 0;
+          var toriYakisobaCount = 0;
+          var nambanToriCount = 0;
+          var ramenCount = 0;
+
+          slashCommand.replyPublic(message, "Nouvelle semaine, nouveau Nobi : la commande a été réinitialisée !");
+        }
 
     }
 
 })
 ;
-
