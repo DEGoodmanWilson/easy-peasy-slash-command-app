@@ -1,7 +1,7 @@
 {
-  "name": "awesomeslashcommand",
+  "name": "spongemock",
   "version": "1.0.0",
-  "description": "The awesomest slash command evar.",
+  "description": "iTs WrItTeN iN jAvAsCrIpT.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -9,18 +9,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DEGoodmanWilson/easy-peasy-slash-command-app.git"
+    "url": "git+https://github.com/zsumner/sponge-mock-slash-command"
   },
   "keywords": [
     "slack",
-    "slash command"
+    "slash command",
+    "spongebob"
+    "mocking spongebob"
+    "memes"
   ],
-  "author": "D.E. Goodman-Wilson",
+  "author": "Zachary Sumner",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/DEGoodmanWilson/easy-peasy-slash-command-app/issues"
   },
-  "homepage": "https://github.com/DEGoodmanWilson/easy-peasy-slash-command-app#readme",
+  "homepage": "https://github.com/zsumner/sponge-mock-slash-command#readme",
   "engines": {
     "node": "5.1.1"
   },
